@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Banking_API.Domain.Entities.Identity;
+using Banking_API.Application.Repositories;
+using Banking_API.Persistence.Repositories;
 
 
 namespace Banking_API.Persistence
@@ -22,6 +24,12 @@ namespace Banking_API.Persistence
                 options.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<BankingAPIDbContext>()
            .AddDefaultTokenProviders();
+            services.AddScoped<ICustomerReadRepository,CustomerReadRepository>();
+            services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
+            services.AddScoped<IAccountReadRepository, AccountReadRepository>();
+            services.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
+            services.AddScoped<ITransactionReadRepository, TransactionReadRepository>();
+            services.AddScoped<ITransactionWriteRepository, TransactionWriteRepository>();
         }
     }
 }

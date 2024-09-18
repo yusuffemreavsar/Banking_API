@@ -4,9 +4,9 @@ namespace Banking_API.Application.Repositories
 {
     public interface IWriteRepository<T>:IBaseRepository<T> where T : BaseEntity
     {
-        public Task<bool> AddAsync(T entity);
-        public Task<bool> UpdateAsync(T entity);
-        public Task<bool> DeleteAsync(T entity);
-        public Task<bool> DeleteByIdAsync(Guid id);
+        public Task<T> AddAsync(T entity);
+        public Task<T> UpdateAsync(T entity);
+        public Task<T> DeleteAsync(T entity);
+        public Task<T> DeleteByIdAsync(Guid id);
     }
 }
