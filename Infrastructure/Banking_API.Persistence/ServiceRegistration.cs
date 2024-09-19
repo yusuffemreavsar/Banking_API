@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Banking_API.Domain.Entities.Identity;
 using Banking_API.Application.Repositories;
 using Banking_API.Persistence.Repositories;
+using System.Reflection;
+using Banking_API.Application.Services;
+using Banking_API.Persistence.Services;
 
 
 namespace Banking_API.Persistence
@@ -14,6 +17,7 @@ namespace Banking_API.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddDbContext<BankingAPIDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<AppUser, AppRole>(options =>
             {
@@ -30,6 +34,8 @@ namespace Banking_API.Persistence
             services.AddScoped<IAccountWriteRepository, AccountWriteRepository>();
             services.AddScoped<ITransactionReadRepository, TransactionReadRepository>();
             services.AddScoped<ITransactionWriteRepository, TransactionWriteRepository>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

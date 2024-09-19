@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Banking_API.Persistence.Contexts
 {
-    public class BankingAPIDbContext : IdentityDbContext<AppUser,AppRole,Guid>
+    public class BankingAPIDbContext : IdentityDbContext<AppUser,AppRole,string>
     {
         public BankingAPIDbContext(DbContextOptions options):base(options){ }
 

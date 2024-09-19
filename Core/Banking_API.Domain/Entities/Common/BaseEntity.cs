@@ -13,5 +13,11 @@ namespace Banking_API.Domain.Entities.Common
         public DateTime DeletedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
+        public BaseEntity()
+        {
+            Id = Guid.NewGuid();
+            
+        }
+
     }
 }
