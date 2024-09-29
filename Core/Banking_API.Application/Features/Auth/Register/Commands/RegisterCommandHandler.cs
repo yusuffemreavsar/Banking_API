@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Banking_API.Application.Features.Auth.Dtos;
+using Banking_API.Application.Features.Auth.Register.Dtos;
 using Banking_API.Application.Services;
 using MediatR;
 
-namespace Banking_API.Application.Features.Auth.Commands
+namespace Banking_API.Application.Features.Auth.Register.Commands
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommandRequest, RegisterCommandResponse>
     {

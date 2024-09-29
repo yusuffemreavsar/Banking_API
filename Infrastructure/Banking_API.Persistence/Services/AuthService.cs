@@ -1,25 +1,37 @@
 ﻿using AutoMapper;
-using Banking_API.Application.Dtos;
-using Banking_API.Application.Features.Auth.Dtos;
+using Banking_API.Application.Features.Auth.Login.Dtos;
+using Banking_API.Application.Features.Auth.Register.Dtos;
 using Banking_API.Application.Services;
 using Banking_API.Domain.Entities.Identity;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace Banking_API.Persistence.Services
 {
     public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
+
         private readonly IMapper _mapper;
-        public AuthService(UserManager<AppUser> userManager, IMapper mapper)
+        private readonly ITokenService _tokenService;
+        public AuthService(UserManager<AppUser> userManager, IMapper mapper, IConfiguration configuration, ITokenService tokenService)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _tokenService = tokenService;
         }
-        public Task<string> Login(LoginDto loginDto)
+
+
+        public async Task<string> Login(LoginRequestDto loginDto)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
+            {
+                var token = await _tokenService.GenerateToken(user);
+                return token;
+            }
+
+            return null;
         }
 
         public async Task<RegisterResponseDto> Register(RegisterRequestDto registerDto)

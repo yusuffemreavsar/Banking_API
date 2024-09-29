@@ -35,7 +35,8 @@ namespace Banking_API.Persistence
             services.AddScoped<ITransactionReadRepository, TransactionReadRepository>();
             services.AddScoped<ITransactionWriteRepository, TransactionWriteRepository>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
+
         }
     }
 }

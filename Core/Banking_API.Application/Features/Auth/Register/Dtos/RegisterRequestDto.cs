@@ -1,4 +1,4 @@
-﻿namespace Banking_API.Application.Features.Auth.Dtos
+﻿namespace Banking_API.Application.Features.Auth.Register.Dtos
 {
     public class RegisterRequestDto
     {

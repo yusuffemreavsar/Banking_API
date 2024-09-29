@@ -1,4 +1,5 @@
-﻿using Banking_API.Application.Features.Auth.Commands;
+﻿using Banking_API.Application.Features.Auth.Login.Commands;
+using Banking_API.Application.Features.Auth.Register.Commands;
 using Banking_API.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,18 @@ namespace Banking_API.WebAPI.Controllers
                 return BadRequest("RegisterRequestDto is null.");
             }
             var response= await _mediator.Send(registerCommandRequest);
+            return Ok(response);
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginCommandRequest loginCommandRequest)
+        {
+
+            if (loginCommandRequest.LoginRequestDto ==null)
+            {
+                return BadRequest("LoginRequestDto is null.");
+            }
+            var response = await _mediator.Send(loginCommandRequest);
             return Ok(response);
         }
     }
