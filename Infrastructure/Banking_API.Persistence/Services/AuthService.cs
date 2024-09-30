@@ -22,16 +22,15 @@ namespace Banking_API.Persistence.Services
         }
 
 
-        public async Task<string> Login(LoginRequestDto loginDto)
+        public async Task<string> Login(AppUser user)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
+            if (user != null)
             {
                 var token = await _tokenService.GenerateToken(user);
                 return token;
             }
 
-            return null;
+            throw  new Exception("Token not created.Invalid Opreation");
         }
 
         public async Task<RegisterResponseDto> Register(RegisterRequestDto registerDto)

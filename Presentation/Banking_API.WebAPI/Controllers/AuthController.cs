@@ -21,7 +21,11 @@ namespace Banking_API.WebAPI.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterCommandRequest registerCommandRequest)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (registerCommandRequest._RegisterRequestDto == null)
             {
                 return BadRequest("RegisterRequestDto is null.");
@@ -33,12 +37,14 @@ namespace Banking_API.WebAPI.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginCommandRequest loginCommandRequest)
         {
+           
 
             if (loginCommandRequest.LoginRequestDto ==null)
             {
                 return BadRequest("LoginRequestDto is null.");
             }
             var response = await _mediator.Send(loginCommandRequest);
+         
             return Ok(response);
         }
     }
