@@ -23,9 +23,9 @@ namespace Banking_API.Application.Features.Auth.Login.Commands
             var user = await _userManager.FindByEmailAsync(request.LoginRequestDto.Email);
             await _loginBusinessRules.UserShouldBeExists(user);
             await _loginBusinessRules.CheckPasswordAsync(user, request.LoginRequestDto.Password);
-            var token = await _authService.Login(user);   
+            var token = await _authService.Login(user);
 
-            return new LoginCommandResponse { Token = token };
+            return new LoginCommandResponse() { Token = token };
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Banking_API.Application.Features.Auth.Login.Rules;
+﻿using Banking_API.Application.Exceptions;
+using Banking_API.Application.Features.Auth.Login.Rules;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -15,9 +16,8 @@ namespace Banking_API.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
-
-
             services.AddScoped<LoginBusinessRules>();
+            services.AddScoped<ExceptionMiddleware>();  
         }
        }
 }
