@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SendGrid.Helpers.Errors.Model;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,31 +23,85 @@ namespace Banking_API.Application.Exceptions
         private static Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
         {
             int statusCode = GetStatusCode(exception);
-            httpContext.Response.StatusCode = statusCode;
             httpContext.Response.ContentType = "application/json";
 
-            List<string> errors = new()
+            if(exception is NotFoundException notFoundException)
             {
-                exception.Message,
-                exception.InnerException?.ToString()
-            };
-
-            return httpContext.Response.WriteAsync(new ExceptionModel
+                return createNotFoundProblemDetailsResponse(httpContext, notFoundException,statusCode);
+            }
+            if (exception is BadRequestException badRequestException)
             {
-                Errors = errors,
-                StatusCode = statusCode
+                return createBadRequestProblemDetailsResponse(httpContext, badRequestException, statusCode);
+            }
+            if(exception is BusinessException businessException)
+            {
+                return createBusinessProblemDetailsResponse(httpContext, businessException, statusCode);
+            }
 
-            }.ToString()) ;
+            return createInternalProblemDetailResponse(httpContext, exception, statusCode);
 
         }
         private static int GetStatusCode(Exception exception) =>
             exception switch
             {
-                BadHttpRequestException=>StatusCodes.Status400BadRequest,
+                BadRequestException=>StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
+                BusinessException => StatusCodes.Status400BadRequest,
                 ValidationException =>StatusCodes.Status422UnprocessableEntity,
                 _=>StatusCodes.Status500InternalServerError
+         };
+        private static Task createNotFoundProblemDetailsResponse(HttpContext httpContext, NotFoundException notFoundException,int statusCode)
+        {
+            httpContext.Response.StatusCode = statusCode;
+            NotFoundProblemDetails notFoundProblemDetails = new NotFoundProblemDetails()
+            {
+                Type="Not Found",
+                Title = "NotFound Exception",
+                Status = statusCode,
+                Detail = notFoundException.Message,
+                Instance = httpContext.Request.Path
             };
-        
+            return httpContext.Response.WriteAsync(notFoundProblemDetails.ToString());
+        }
+        private static Task createBadRequestProblemDetailsResponse(HttpContext httpContext, BadRequestException badRequestException, int statusCode)
+        {
+            httpContext.Response.StatusCode = statusCode;
+            BadRequestExceptionDetails badRequestExceptionDetails = new BadRequestExceptionDetails()
+            {
+                Type = "Bad Request",
+                Title = "BadRequest Exception",
+                Status = statusCode,
+                Detail=badRequestException.Message,
+                Instance = httpContext.Request.Path
+            };
+            return httpContext.Response.WriteAsync(badRequestExceptionDetails.ToString());
+        }
+        private static Task createInternalProblemDetailResponse(HttpContext httpContext, Exception exception, int statusCode)
+        {
+            httpContext.Response.StatusCode = statusCode;
+            ProblemDetails problemDetails = new()
+            {
+                Type = "Internal Server",
+                Title = "Internal Server Exception",
+                Status = statusCode,
+                Detail = exception.Message,
+                Instance = httpContext.Request.Path
+            };
+            return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(problemDetails));
+        }
+        private static Task createBusinessProblemDetailsResponse(HttpContext httpContext, BusinessException businessException,int statusCode)
+        {
+            httpContext.Response.StatusCode =statusCode;
+            BusinessExceptionDetails businessExceptionDetails = new BusinessExceptionDetails()
+            {
+                Type= "Business",
+                Title = "Business Exception",
+                Status = statusCode,
+                Detail = businessException.Message,
+                Instance = httpContext.Request.Path
+            };
+            return httpContext.Response.WriteAsync(businessExceptionDetails.ToString());
+        }
+
     }
 }

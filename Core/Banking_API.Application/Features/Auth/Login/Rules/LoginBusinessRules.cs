@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Banking_API.Application.Exceptions;
 using Banking_API.Application.Features.Auth.Login.Dtos;
 using Banking_API.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +18,7 @@ namespace Banking_API.Application.Features.Auth.Login.Rules
         }
         public Task UserShouldBeExists(AppUser? user)
         {
-            if (user == null) throw new Exception("User don't exists.");
+            if (user == null) throw new NotFoundException("User don't exists.");
             return Task.CompletedTask;
         }
 
@@ -26,7 +27,7 @@ namespace Banking_API.Application.Features.Auth.Login.Rules
            var chechPassword = await _userManager.CheckPasswordAsync(user, password);
             if (!chechPassword)
             {
-                throw new Exception("Password not matched!");
+                throw new BusinessException("Password not matched!");
             }
         }
 
