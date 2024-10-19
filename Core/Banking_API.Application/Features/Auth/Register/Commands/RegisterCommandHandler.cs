@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using Banking_API.Application.Features.Auth.Register.Dtos;
-using Banking_API.Application.Repositories;
 using Banking_API.Application.Services;
-using Banking_API.Domain.Entities;
 using Banking_API.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 
 namespace Banking_API.Application.Features.Auth.Register.Commands
 {
@@ -18,10 +14,11 @@ namespace Banking_API.Application.Features.Auth.Register.Commands
         private readonly ICustomerService _customerService;
 
 
-        public RegisterCommandHandler(IAuthService authService, UserManager<AppUser> userManager)
+        public RegisterCommandHandler(IAuthService authService, UserManager<AppUser> userManager, ICustomerService customerService)
         {
             _authService = authService;
             _userManager = userManager;
+            _customerService = customerService;
         }
 
         public async Task<RegisterCommandResponse> Handle(RegisterCommandRequest request, CancellationToken cancellationToken)

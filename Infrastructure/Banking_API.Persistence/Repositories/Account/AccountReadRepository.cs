@@ -1,4 +1,5 @@
-﻿using Banking_API.Application.Repositories;
+﻿using Banking_API.Application.Interfaces.Repositories;
+using Banking_API.Application.Repositories;
 using Banking_API.Domain.Entities;
 using Banking_API.Persistence.Contexts;
 

@@ -9,6 +9,11 @@ using Banking_API.Persistence.Repositories;
 using System.Reflection;
 using Banking_API.Application.Services;
 using Banking_API.Persistence.Services;
+using Banking_API.Application.Interfaces.Repositories;
+using Banking_API.Domain.Entities.Common;
+
+
+
 
 
 namespace Banking_API.Persistence
@@ -37,6 +42,8 @@ namespace Banking_API.Persistence
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ICustomerService,CustomerService>();
+         
+            
 
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Banking_API.Domain.Entities.Common
+﻿namespace Banking_API.Domain.Entities.Common
 {
     public interface IBaseEntity
     {

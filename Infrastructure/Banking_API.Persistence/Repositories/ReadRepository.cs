@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Banking_API.Persistence.Repositories
 {
-    public abstract class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
+    public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
     {
         private readonly DbContext _context;
         public ReadRepository(DbContext context)

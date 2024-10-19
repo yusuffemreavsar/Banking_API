@@ -1,11 +1,12 @@
-﻿using Banking_API.Application.Repositories;
+﻿using Banking_API.Application.Interfaces.Repositories;
+using Banking_API.Application.Repositories;
 using Banking_API.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Banking_API.Persistence.Repositories
 {
-    public abstract class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
+    public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
     {
         private readonly DbContext _context;
         public WriteRepository(DbContext context)

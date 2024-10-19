@@ -1,4 +1,5 @@
-﻿using Banking_API.Domain.Entities.Common;
+﻿using Banking_API.Application.Interfaces.Repositories;
+using Banking_API.Domain.Entities.Common;
 using System.Linq.Expressions;
 
 namespace Banking_API.Application.Repositories
