@@ -47,6 +47,7 @@ namespace Banking_API.Application.Exceptions
                 BadRequestException=>StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
                 BusinessException => StatusCodes.Status400BadRequest,
+                UserCreateFailedException=>StatusCodes.Status400BadRequest,
                 ValidationException =>StatusCodes.Status422UnprocessableEntity,
                 _=>StatusCodes.Status500InternalServerError
          };
@@ -101,6 +102,19 @@ namespace Banking_API.Application.Exceptions
                 Instance = httpContext.Request.Path
             };
             return httpContext.Response.WriteAsync(businessExceptionDetails.ToString());
+        }
+        private static Task createUserCreateFailedDetailsResponse(HttpContext httpContext, UserCreateFailedException userCreateFailedException, int statusCode)
+        {
+            httpContext.Response.StatusCode = statusCode;
+            UserCreateFailedDetails userCreateFailedDetails = new UserCreateFailedDetails()
+            {
+                Type = "User Create Fail",
+                Title = "User Create Failed Exception",
+                Status = statusCode,
+                Detail = userCreateFailedException.Message,
+                Instance = httpContext.Request.Path
+            };
+            return httpContext.Response.WriteAsync(userCreateFailedDetails.ToString());
         }
 
     }

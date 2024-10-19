@@ -8,7 +8,7 @@ namespace Banking_API.Domain.Entities
         public string AccountType { get; set; }
         public decimal Balance { get; set; } 
         public Guid CustomerId { get; set; }    
-        public Customer Customer { get; set; }
+        public Customer? Customer { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Banking_API.Application.Exceptions;
 using Banking_API.Application.Features.Auth.Login.Dtos;
 using Banking_API.Application.Features.Auth.Register.Dtos;
+using Banking_API.Application.Repositories;
 using Banking_API.Application.Services;
+using Banking_API.Domain.Entities;
 using Banking_API.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -29,19 +32,18 @@ namespace Banking_API.Persistence.Services
                 var token = await _tokenService.GenerateToken(user);
                 return token;
             }
-
-            throw  new Exception("Token not created.Invalid Opreation");
+            throw  new BusinessException("Token not created.Invalid Opreation");
         }
 
         public async Task<RegisterResponseDto> Register(RegisterRequestDto registerDto)
         {
             AppUser appUser= _mapper.Map<AppUser>(registerDto);
-            appUser.Id = Guid.NewGuid().ToString();
+            appUser.Id = Guid.NewGuid();
             var result=await _userManager.CreateAsync(appUser,registerDto.Password);
             RegisterResponseDto response = new() {Succeeded=result.Succeeded};
             if (result.Succeeded)
             {
-                response.Message = "Register success.";
+                response.Message = "Register success.";  
             }
             else
                 foreach (var error in result.Errors)

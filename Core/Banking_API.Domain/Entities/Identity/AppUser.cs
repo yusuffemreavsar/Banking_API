@@ -2,7 +2,7 @@
 
 namespace Banking_API.Domain.Entities.Identity
 {
-    public class AppUser : IdentityUser<string>
+    public class AppUser : IdentityUser<Guid>
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

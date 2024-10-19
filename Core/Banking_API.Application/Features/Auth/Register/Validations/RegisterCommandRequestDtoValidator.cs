@@ -32,7 +32,7 @@ namespace Banking_API.Application.Features.Auth.Register.Validations
                 .EmailAddress().WithMessage("Enter a valid email address.")
                 .MaximumLength(100).WithMessage("Email must not exceed 100 characters.");
 
-            RuleFor(x => x._RegisterRequestDto.Phone)
+            RuleFor(x => x._RegisterRequestDto.PhoneNumber)
                 .NotEmpty().WithMessage("Phone number is required.")
                 .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("Enter a valid phone number.");
 

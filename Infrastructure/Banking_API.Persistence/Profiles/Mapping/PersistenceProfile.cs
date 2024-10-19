@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Banking_API.Application.Features.Auth.Register.Dtos;
+using Banking_API.Domain.Entities;
 using Banking_API.Domain.Entities.Identity;
 
 namespace Banking_API.Persistence.Profiles.Mapping
@@ -9,6 +10,7 @@ namespace Banking_API.Persistence.Profiles.Mapping
         public PersistenceProfile()
         {
             CreateMap<RegisterRequestDto, RegisterResponseDto>().ReverseMap();
+            CreateMap<Customer,AppUser>().ReverseMap();
 
         }
 

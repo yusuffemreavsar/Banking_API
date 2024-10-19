@@ -18,6 +18,7 @@ namespace Banking_API.Persistence.Repositories
         {
             Table.Entry(entity).State = EntityState.Added;
             await _context.SaveChangesAsync();
+            
             return entity;
         }
 

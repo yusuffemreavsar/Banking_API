@@ -12,8 +12,6 @@
 
   <ItemGroup>
     <Folder Include="Features\AppUser\" />
-    <Folder Include="Features\Customer\Commands\" />
-    <Folder Include="Features\Customer\Dtos\" />
     <Folder Include="Features\Customer\Rules\" />
     <Folder Include="Features\Customer\Validations\" />
     <Folder Include="Features\Customer\Queries\" />
